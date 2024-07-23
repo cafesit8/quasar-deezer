@@ -3,7 +3,7 @@
     <div class="info">
       <div class="info_song">
         <picture>
-          <img :src="songInfo?.cover" alt="">
+          <img :src="songInfo?.cover || '/default_cover.png'" alt="">
         </picture>
         <div class="info_song_details">
           <p>{{ songInfo?.title }}</p>
