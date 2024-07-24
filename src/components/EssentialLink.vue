@@ -2,7 +2,9 @@
   <q-item clickable v-ripple @click="handleClick">
     <q-item-section>
       <q-item-label>
-        <span class="item">{{ title }}</span>
+        <RouterLink :to="props.link" exactActiveClass="active" class="item">
+          {{ title }}
+        </RouterLink>
       </q-item-label>
     </q-item-section>
   </q-item>
@@ -38,19 +40,34 @@ export default defineComponent({
   setup (props) {
     const router = useRouter()
     function handleClick () {
-      router.push({ name: props.link })
+      router.push({ path: props.link })
     }
     return {
-      handleClick
+      handleClick,
+      props
     }
   }
 })
 </script>
 
 <style scoped lang="scss">
+@use '../css/quasar.variables.scss' as *;
+
 .item {
   font-size: 15px;
   font-weight: 300;
   margin-left: 5px;
+}
+
+.active {
+  color: $red_principal !important;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.item {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
 }
 </style>

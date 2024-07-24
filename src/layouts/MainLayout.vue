@@ -34,11 +34,11 @@ import HeaderComponent from 'src/components/HeaderComponent.vue'
 const linksList = [
   {
     title: 'Recientes',
-    link: 'home'
+    link: '/'
   },
   {
     title: 'Pop musicoll',
-    link: 'singers'
+    link: 'artistas'
   },
   {
     title: 'Eléctronica',
