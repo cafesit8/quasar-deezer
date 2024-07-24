@@ -69,7 +69,7 @@ export default defineComponent({
     const currentTime = ref(0)
     const { songInfo, toggleIsPlaying, isPlaying } = useMusic()
 
-    const playAudio = () => {
+    function playAudio () {
       if (audio.value) {
         audio.value.play().catch(error => {
           console.error('Error playing audio:', error)
@@ -77,17 +77,15 @@ export default defineComponent({
       }
     }
 
-    const handleLoadedData = () => {
-      playAudio()
-    }
+    const handleLoadedData = () => playAudio()
 
-    const updateCurrentTime = () => {
+    function updateCurrentTime () {
       if (audio.value) {
         currentTime.value = audio.value.currentTime
       }
     }
 
-    const handleChange = (e) => {
+    function handleChange (e) {
       const newTime = e.target.value
       if (audio.value) {
         audio.value.currentTime = newTime
@@ -158,7 +156,7 @@ footer {
   height: 100px;
   background-color: $light-red;
   color: white;
-  position: absolute;
+  position: sticky;
   bottom: 0;
   left: 0;
   display: flex;
