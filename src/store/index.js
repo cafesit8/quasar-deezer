@@ -3,6 +3,7 @@ import { createStore } from 'vuex'
 
 // import example from './module-example'
 import music from './music'
+import dialog from './dialog'
 
 /*
  * If not building with SSR mode, you can
@@ -17,7 +18,8 @@ export default store(function (/* { ssrContext } */) {
   const Store = createStore({
     modules: {
       // example
-      music
+      music,
+      dialog
     },
 
     // enable strict mode (adds overhead!)
