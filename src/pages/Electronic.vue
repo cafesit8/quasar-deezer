@@ -1,23 +1,21 @@
 <template>
   <q-page class="flex">
     <div class="container">
-      <AlbumSection />
+      <ElectronicSection />
     </div>
   </q-page>
 </template>
-
 <script>
 import { defineComponent } from 'vue'
-import AlbumSection from '../sections/IndexPage/AlbumSection.vue'
+import ElectronicSection from '../sections/ElectronicPage/ElectronicSection.vue'
 
 export default defineComponent({
-  name: 'IndexPage',
+  name: 'SingersPage',
   components: {
-    AlbumSection
+    ElectronicSection
   }
 })
 </script>
-
 <style scoped lang="scss">
 .container {
   width: 100%;
