@@ -37,11 +37,11 @@ const linksList = [
     link: 'home'
   },
   {
-    title: 'Artistas',
+    title: 'Pop musicoll',
     link: 'singers'
   },
   {
-    title: 'Albums',
+    title: 'Eléctronica',
     link: 'albums'
   }
 ]
