@@ -1,6 +1,6 @@
 <template>
   <section v-if="loading" class="loading_section">
-    <CardSkeleton v-for="i in 10" :key="i" />
+    <CardSkeleton v-for="i in 20" :key="i" />
   </section>
   <section v-else class="section-album">
     <h3><span>{{ data.artist ? 'Album' : 'Playlist' }}</span> - {{ data.artist?.name || data.creator?.name }}</h3>
