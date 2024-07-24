@@ -56,7 +56,6 @@ export default defineComponent({
 .item {
   font-size: 15px;
   font-weight: 300;
-  margin-left: 5px;
 }
 
 .active {
