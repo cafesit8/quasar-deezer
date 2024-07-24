@@ -45,7 +45,7 @@
     </q-page-container>
     <FooterComponent />
   </q-layout>
-  <q-dialog v-model="isOpen" persistent>
+  <DialogComponent>
     <q-card class="q-pa-lg relative-position" style="width: 350px;">
       <div class="text-h6 dialog_content">
         <span class="title">Crear PlayList</span>
@@ -63,7 +63,7 @@
         </svg>
       </button>
     </q-card>
-  </q-dialog>
+  </DialogComponent>
 </template>
 
 <script>
@@ -73,6 +73,7 @@ import FooterComponent from 'src/components/FooterComponent.vue'
 import HeaderComponent from 'src/components/HeaderComponent.vue'
 import { useDialog } from 'src/composables/useDialog'
 import { usePlayList } from 'src/composables/usePlayList'
+import DialogComponent from 'src/components/DialogComponent.vue'
 
 const linksList = [
   {
@@ -94,7 +95,8 @@ export default defineComponent({
   components: {
     EssentialLink,
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    DialogComponent
   },
   data () {
     return {
@@ -110,7 +112,7 @@ export default defineComponent({
   setup () {
     const { playList, addPlayList, deletePlayList } = usePlayList()
     const namePlaylist = ref('')
-    const { toggleDialog, isOpen } = useDialog()
+    const { toggleDialog } = useDialog()
 
     function handleClick () {
       toggleDialog()
@@ -124,7 +126,6 @@ export default defineComponent({
 
     return {
       playList,
-      isOpen,
       namePlaylist,
       handleClick,
       toggleDialog,
