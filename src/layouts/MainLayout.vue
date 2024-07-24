@@ -72,6 +72,7 @@ import EssentialLink from 'components/EssentialLink.vue'
 import FooterComponent from 'src/components/FooterComponent.vue'
 import HeaderComponent from 'src/components/HeaderComponent.vue'
 import { useDialog } from 'src/composables/useDialog'
+import { usePlayList } from 'src/composables/usePlayList'
 
 const linksList = [
   {
@@ -107,22 +108,18 @@ export default defineComponent({
     }
   },
   setup () {
-    const playList = ref([])
+    const { playList, addPlayList, deletePlayList } = usePlayList()
     const namePlaylist = ref('')
     const { toggleDialog, isOpen } = useDialog()
 
     function handleClick () {
       toggleDialog()
-      playList.value.push({
-        id: crypto.randomUUID(),
-        name: namePlaylist.value,
-        songs: []
-      })
+      addPlayList({ id: crypto.randomUUID(), name: namePlaylist.value, songs: [] })
       namePlaylist.value = ''
     }
 
     function handleDelete (id) {
-      playList.value = playList.value.filter((play) => play.id !== id)
+      deletePlayList(id)
     }
 
     return {
