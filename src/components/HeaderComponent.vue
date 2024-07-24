@@ -7,7 +7,7 @@
             <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
           </q-avatar>
         </template>
-        <q-popup-proxy class="q-py-md q-px-md" v-show="(e) => console.log(e)">
+        <!-- <q-popup-proxy class="q-py-md q-px-md" v-show="(e) => console.log(e)">
           <q-banner>
             <div class="search_items">
               <div v-if="listItems.length === 0">
@@ -20,7 +20,7 @@
               </div>
             </div>
           </q-banner>
-        </q-popup-proxy>
+        </q-popup-proxy> -->
       </q-input>
       <div class="flex items-center">
         <p class="user">Usuario</p>
