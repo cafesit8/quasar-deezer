@@ -21,7 +21,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .container {
   width: 100%;
-  padding: 30px 50px;
+  padding: 30px;
   max-width: 1000px;
   margin: 0 auto;
 }
