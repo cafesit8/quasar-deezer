@@ -6,10 +6,12 @@ export function usePlayList () {
   const playList = computed(() => store.getters['playList/playList'])
   const addPlayList = (payload) => store.commit('playList/addPlayList', payload)
   const deletePlayList = (payload) => store.commit('playList/deletePlayList', payload)
+  const addSongToPlayList = (payload) => store.commit('playList/addSongToPlayList', payload)
 
   return {
     playList,
     addPlayList,
-    deletePlayList
+    deletePlayList,
+    addSongToPlayList
   }
 }
