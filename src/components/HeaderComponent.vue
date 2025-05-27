@@ -1,27 +1,29 @@
 <template>
-  <q-header style="background-color: white; padding: 30px 50px; max-width: 1000px; margin: auto;">
+  <q-header style="background-color: white; padding: 30px; max-width: 1000px; margin: auto;">
     <div class="flex justify-between items-center">
-      <q-input v-model="search" debounce="350" class="search" rounded outlined placeholder="Buscar..." :dense="true">
+      <q-select class="search" :options="listItems" v-model="search" @filter="filterFn" rounded outlined use-input dense
+        input-debounce="350" placeholder="Buscar..." hide-dropdown-icon>
         <template v-slot:append>
           <q-avatar>
             <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
           </q-avatar>
         </template>
-        <!-- <q-popup-proxy class="q-py-md q-px-md" v-show="(e) => console.log(e)">
-          <q-banner>
-            <div class="search_items">
-              <div v-if="listItems.length === 0">
-                <p>Lo sentimos, no encontramos lo que busca</p>
-              </div>
-              <div v-else>
-                <div v-for="song in listItems" :key="song.id">
-                  {{ song.title }}
-                </div>
-              </div>
-            </div>
-          </q-banner>
-        </q-popup-proxy> -->
-      </q-input>
+        <template v-slot:option="{ opt }">
+          <q-item   clickable class="q-py-none q-px-sm" @click="addToSongInfo(opt)">
+            <q-item-section side>
+              <img :src="opt.cover" style="height: 35px; aspect-ratio: 1;" alt="">
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-body2">
+                {{ opt.title }}
+              </q-item-label>
+              <q-item-label class="text-caption">
+                {{ opt.singer }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
       <div class="flex items-center">
         <p class="user">Usuario</p>
         <button @click="toggleDrawer" class="icon">
@@ -39,7 +41,8 @@
 </template>
 <script>
 import { axiosApi } from 'src/config'
-import { defineComponent, ref, watch } from 'vue'
+import { defineComponent, ref } from 'vue'
+import { useMusic } from 'src/composables/useMusic'
 
 export default defineComponent({
   name: 'HeaderComponent',
@@ -49,27 +52,43 @@ export default defineComponent({
     }
   },
   setup () {
+    const { playSong, setSongInfo } = useMusic()
+
     const search = ref('')
     const listItems = ref([])
 
-    watch(search, async () => {
-      if (search.value === '') {
-        listItems.value = []
-        return
-      }
-      const res = await axiosApi.get('/search', {
-        params: {
-          q: search.value.trim()
+    function filterFn (val, update, abort) {
+      update(async () => {
+        if (val) {
+          const res = await axiosApi.get('/search', {
+            params: {
+              q: val.trim()
+            }
+          })
+          return addNewData(res.data.data)
         }
+        listItems.value = []
       })
+    }
 
-      listItems.value = res.data
-      console.log(res.data)
-    })
+    function addNewData (data) {
+      const list = data.map(item => {
+        return { title: item.title, singer: item.artist.name, cover: item.album.cover_small, song: item.preview, id: item.id }
+      })
+      listItems.value = list
+    }
+
+    function addToSongInfo (song) {
+      setSongInfo(song)
+      playSong()
+    }
 
     return {
       search,
-      listItems
+      listItems,
+      filterFn,
+      addToSongInfo,
+      addNewData
     }
   }
 })
@@ -79,7 +98,7 @@ export default defineComponent({
   width: 400px;
 
   @media screen and (max-width: 1024px) {
-    width: 200px;
+    width: 85%;
   }
 
   &_items {

@@ -4,7 +4,7 @@
       <div v-show="playList.length !== 0">
         <q-list>
           <q-item v-for="play in playList" :key="play.id" clickable v-close-popup>
-            <q-item-section>
+            <q-item-section @click="addSongToPLayListFn(play)">
               <q-item-label>{{ play.name }}</q-item-label>
             </q-item-section>
           </q-item>
@@ -40,12 +40,11 @@ export default defineComponent({
   },
   setup (props) {
     const { toggleDialog } = useDialog()
-    const { playList } = usePlayList()
+    const { playList, addSongToPlayList } = usePlayList()
     const { playSong, setSongInfo } = useMusic()
     const { title, artist: { name: singer }, preview: song, album: { cover_medium: cover }, id, duration } = props.album
 
     function handleClick () {
-      playSong()
       setSongInfo({
         id,
         title,
@@ -54,6 +53,23 @@ export default defineComponent({
         song,
         duration,
         toggleDialog
+      })
+      playSong()
+    }
+
+    function addSongToPLayListFn (play) {
+      const newsong = {
+        id,
+        title,
+        singer,
+        cover,
+        song,
+        duration
+      }
+      addSongToPlayList({
+        id: play.id,
+        name: play.name,
+        song: newsong
       })
     }
 
@@ -65,7 +81,8 @@ export default defineComponent({
     return {
       handleClick,
       playListClick,
-      playList
+      playList,
+      addSongToPLayListFn
     }
   }
 })

@@ -5,12 +5,12 @@
   <section v-else class="section-album">
     <h3><span>{{ data.artist ? 'Album' : 'Playlist' }}</span> - {{ data.artist?.name || data.creator?.name }}</h3>
     <div class="container">
-      <CardMusic v-for="album in data.tracks?.data" :key="album.id" :album="album"></CardMusic>
+      <CardMusic v-for="album in songList" :key="album.id" :album="album"></CardMusic>
     </div>
   </section>
 </template>
 <script>
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, ref, computed } from 'vue'
 import { axiosApi } from 'src/config.js'
 import CardMusic from 'src/components/CardMusic.vue'
 import CardSkeleton from './CardSkeleton.vue'
@@ -30,6 +30,8 @@ export default defineComponent({
     const data = ref({})
     const loading = ref(true)
 
+    const songList = computed(() => data.value.tracks?.data.filter(song => song.preview))
+
     onMounted(async () => {
       const res = await axiosApi.get(props.url)
       data.value = res.data
@@ -37,7 +39,8 @@ export default defineComponent({
     })
     return {
       data,
-      loading
+      loading,
+      songList
     }
   }
 })

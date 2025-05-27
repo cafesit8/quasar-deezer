@@ -18,7 +18,7 @@
           <div v-if="playList.length !== 0">
             <q-item v-for="play in playList" :key="play.id" clickable v-ripple>
               <q-item-section>
-                <q-item-label>
+                <q-item-label @click="tooglePlayListDialog(play)">
                   <div class="playlist_item">
                     <span>{{ play.name }}</span>
                     <button @click="handleDelete(play.id)" class="delete_btn">X</button>
@@ -64,6 +64,31 @@
       </button>
     </q-card>
   </DialogComponent>
+  <q-dialog v-model="playListOpenDialog">
+    <div class="playListDialog">
+      <p class="subtitle text-h6">{{ playListSelected.name }}</p>
+      <template v-if="playListSelected.songs.length">
+        <article v-for="song in playListSelected.songs" :key="song.id" class="flex">
+          <q-item clickable class="q-py-none q-px-sm" style="width: 100%;" @click="play(song)">
+            <q-item-section side>
+              <img :src="song.cover" style="height: 35px; aspect-ratio: 1;" alt="">
+            </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-body2 text-white">
+                {{ song.title }}
+              </q-item-label>
+              <q-item-label class="text-caption" style="color: rgba(1000, 1000, 1000, 0.6);">
+                {{ song.singer }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </article>
+      </template>
+      <template v-else>
+        <p>No hay cancioens</p>
+      </template>
+    </div>
+  </q-dialog>
 </template>
 
 <script>
@@ -73,6 +98,7 @@ import FooterComponent from 'src/components/FooterComponent.vue'
 import HeaderComponent from 'src/components/HeaderComponent.vue'
 import { useDialog } from 'src/composables/useDialog'
 import { usePlayList } from 'src/composables/usePlayList'
+import { useMusic } from 'src/composables/useMusic'
 import DialogComponent from 'src/components/DialogComponent.vue'
 
 const linksList = [
@@ -101,7 +127,13 @@ export default defineComponent({
   data () {
     return {
       linksList,
-      leftDrawerOpen: false
+      leftDrawerOpen: false,
+      playListOpenDialog: false,
+      playListSelected: {
+        id: '',
+        name: '',
+        songs: []
+      }
     }
   },
   methods: {
@@ -113,6 +145,7 @@ export default defineComponent({
     const { playList, addPlayList, deletePlayList } = usePlayList()
     const namePlaylist = ref('')
     const { toggleDialog } = useDialog()
+    const { playSong, setSongInfo } = useMusic()
 
     function handleClick () {
       toggleDialog()
@@ -120,8 +153,26 @@ export default defineComponent({
       namePlaylist.value = ''
     }
 
+    function tooglePlayListDialog (play) {
+      console.log(play)
+      this.playListOpenDialog = !this.playListOpenDialog
+      this.playListSelected = play
+    }
+
     function handleDelete (id) {
       deletePlayList(id)
+    }
+
+    function play ({ id, title, singer, cover, song, duration }) {
+      setSongInfo({
+        id,
+        title,
+        singer,
+        cover,
+        song,
+        duration
+      })
+      playSong()
     }
 
     return {
@@ -129,7 +180,9 @@ export default defineComponent({
       namePlaylist,
       handleClick,
       toggleDialog,
-      handleDelete
+      handleDelete,
+      tooglePlayListDialog,
+      play
     }
   }
 })
@@ -193,6 +246,12 @@ export default defineComponent({
   border: none;
   font-size: 20px;
   cursor: pointer;
+}
+
+.playListDialog {
+  background-color: $light-red;
+  min-width: 300px;
+  padding: 1rem;
 }
 
 .dialog_content {
