@@ -163,6 +163,10 @@ footer {
   z-index: 9999;
   overflow: hidden;
 
+  @media (max-width: 600px) {
+    height: 70px;
+  }
+
   .info {
     width: 100%;
     display: flex;
@@ -175,10 +179,21 @@ footer {
       align-items: center;
       gap: 15px;
 
+      @media (max-width: 600px) {
+        width: 240px;
+        gap: 7PX;
+        height: 100%;
+      }
+
       picture {
         display: block;
         width: 100px;
         height: 100px;
+
+        @media (max-width: 600px) {
+          width: 50%;
+          height: 100%;
+        }
 
         img {
           width: 100%;
@@ -191,11 +206,25 @@ footer {
         display: flex;
         flex-direction: column;
 
+        @media (max-width: 600px) {
+          width: 50%;
+        }
+
         p {
           font-size: 15px;
           font-weight: 500;
           margin: 0;
+
+          @media (max-width: 600px) {
+            font-size: 10px;
+          }
         }
+
+         small {
+           @media (max-width: 600px) {
+            font-size: 10px;
+           }
+         }
       }
     }
 
@@ -236,6 +265,10 @@ footer {
       width: 180px;
       display: flex;
       gap: 10px;
+
+      @media (max-width: 600px) {
+        display: none;
+      }
     }
   }
 }
